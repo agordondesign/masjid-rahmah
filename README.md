@@ -27,3 +27,66 @@ yarn create next-app --example with-tailwindcss with-tailwindcss-app
 ```
 
 Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+
+# Dependecies
+
+## Add Typescript
+
+https://ryder.dev/add-typescript-to-nextjs/
+
+touch tsconfig.json
+
+npm install typescript @types/react @types/node
+
+tsconfig.json file:
+
+"include": [
+"next-env.d.ts",
+"**/*.ts",
+"**/*.tsx",
+"**/*.css", 👈
+"**.*.js" 👈
+],
+
+Add next lint as a script to package.json:
+
+"scripts": {
+"lint": "next lint"
+}
+
+Then run npm run lint or yarn lint:
+
+## Installing devDependencies:
+
+- eslint
+- eslint-config-next
+- typescript
+- @types/react
+- prettier : npm install -D prettier eslint-config-prettier
+  create .prettierrc.json add to file:
+
+{
+"printWidth": 80,
+"semi": true,
+"singleQuote": true,
+"tabWidth": 2,
+"trailingComma": "es5"
+}
+
+npm install -D @typescript-eslint/eslint-plugin
+
+.eslintrc.json add
+
+{
+"env": {
+"browser": true,
+"es2021": true,
+"node": true
+},
+"extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended", "prettier"],
+"settings": {
+"react": {
+"version": "detect"
+}
+}
+}
