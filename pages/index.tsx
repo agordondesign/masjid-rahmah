@@ -1,6 +1,19 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import { Key } from 'react';
 
-export default function Home() {
+const prayer = 'https://api.pray.zone/v2/times/today.json?city=newark';
+
+export async function getServerSideProps() {
+  const result = await fetch(prayer);
+  const data = await result.json();
+  return {
+    props: { data },
+  };
+}
+
+export default function Home({ data }) {
+  console.log('data', data);
+  const { results = [] } = data;
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -28,10 +41,26 @@ export default function Home() {
             href="https://nextjs.org/docs"
             className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
           >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
+            <h3 className="text-2xl font-bold">
+              Prayer Times &rarr;{' '}
+              {results.datetime.map((result: any, i: Key) => {
+                return result.date.hijri;
+              })}
+            </h3>
+            <ul>
+              {results.datetime.map((result: any) => {
+                //console.log(result.times.Fajr);
+                return (
+                  <>
+                    <li>Fajr: {result.times.Fajr}</li>
+                    <li>Dhuhr: {result.times.Dhuhr}</li>
+                    <li>'Asr: {result.times.Asr}</li>
+                    <li>Maghrib: {result.times.Maghrib}</li>
+                    <li>'Isha: {result.times.Isha}</li>
+                  </>
+                );
+              })}
+            </ul>
           </a>
 
           <a
@@ -78,5 +107,5 @@ export default function Home() {
         </a>
       </footer>
     </div>
-  )
+  );
 }
